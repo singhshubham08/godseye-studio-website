@@ -1,7 +1,6 @@
 (() => {
   const appUrl = 'https://roopsetu-github-io.vercel.app/';
   let featureCard;
-  let livePreview;
   let installDialog;
 
   function createFeatureCard() {
@@ -123,33 +122,6 @@
     return dialog;
   }
 
-  function createLivePreview() {
-    const preview = document.createElement('section');
-    preview.className = 'roopsetu-live-preview';
-    preview.setAttribute('aria-labelledby', 'roopsetu-live-preview-title');
-    preview.innerHTML = `
-      <div class="roopsetu-live-preview__heading">
-        <div>
-          <p class="roopsetu-live-preview__eyebrow">Explore RoopSetu</p>
-          <h2 id="roopsetu-live-preview-title">Try the live app</h2>
-          <p class="roopsetu-live-preview__description">
-            Explore the real RoopSetu experience right here. For the best experience
-            with sign-in, payments, and installation, open the app in its own tab.
-          </p>
-        </div>
-        <a class="roopsetu-live-preview__link" href="${appUrl}"
-           target="_blank" rel="noopener noreferrer">
-          Open full app <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-      <div class="roopsetu-live-preview__frame">
-        <iframe src="${appUrl}" title="Live RoopSetu salon booking app"
-                loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
-                allow="payment"></iframe>
-      </div>`;
-    return preview;
-  }
-
   function initializeRoopSetuFeature() {
     const portfolio = document.querySelector('.section-paper .mx-auto.max-w-7xl.px-5');
     if (!portfolio) return;
@@ -170,14 +142,6 @@
 
     if (!portfolio.contains(featureCard)) {
       portfolio.insertBefore(featureCard, firstProjectGrid);
-    }
-
-    if (!livePreview) {
-      livePreview = createLivePreview();
-    }
-
-    if (!portfolio.contains(livePreview)) {
-      portfolio.insertBefore(livePreview, firstProjectGrid);
     }
 
     if (!installDialog) {
