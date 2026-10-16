@@ -9,6 +9,6 @@ services:
       - key: GE_SESSION_SECRET
         generateValue: true
       - key: GE_ADMIN_USERNAME
-        sync: false
+        value: admin
       - key: GE_ADMIN_PASSWORD
-        sync: false
+        generateValue: true
