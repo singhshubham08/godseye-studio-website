@@ -338,6 +338,80 @@
   font-weight: 700;
 }
 
+.roopsetu-live-preview {
+  margin: 0 0 4rem;
+  overflow: hidden;
+  border: 1px solid rgba(169, 95, 112, 0.2);
+  border-radius: 1.75rem;
+  background: linear-gradient(145deg, #fffaf8, #f8ece9);
+  box-shadow: 0 20px 55px rgba(24, 12, 18, 0.12);
+}
+
+.roopsetu-live-preview__heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1.35rem, 4vw, 2.5rem);
+}
+
+.roopsetu-live-preview__eyebrow {
+  color: var(--roopsetu-rose, #a95f70);
+  font: 700 0.7rem/1.2 "Space Grotesk", sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.roopsetu-live-preview__heading h2 {
+  margin-top: 0.5rem;
+  color: #34252b;
+  font: 800 clamp(1.5rem, 3vw, 2.2rem)/1.1 "Syne", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.roopsetu-live-preview__description {
+  max-width: 42rem;
+  margin-top: 0.6rem;
+  color: #78656c;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.roopsetu-live-preview__link {
+  display: inline-flex;
+  min-height: 2.8rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ae6576, #8e4c60);
+  color: #fff;
+  font: 700 0.8rem/1.2 "Space Grotesk", sans-serif;
+  text-decoration: none;
+}
+
+.roopsetu-live-preview__link:focus-visible {
+  outline: 3px solid #71404c;
+  outline-offset: 3px;
+}
+
+.roopsetu-live-preview__frame {
+  height: min(78vh, 52rem);
+  min-height: 38rem;
+  border-top: 1px solid rgba(169, 95, 112, 0.18);
+  background: #fff;
+}
+
+.roopsetu-live-preview__frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
 .roopsetu-install-dialog {
   width: min(92vw, 36rem);
   max-height: min(88vh, 48rem);
@@ -452,6 +526,11 @@
   .roopsetu-feature__visual {
     min-height: 25rem;
   }
+
+  .roopsetu-live-preview__heading {
+    align-items: start;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 480px) {
@@ -488,6 +567,16 @@
 
   .roopsetu-install-dialog__steps {
     grid-template-columns: 1fr;
+  }
+
+  .roopsetu-live-preview {
+    margin-bottom: 3rem;
+    border-radius: 1.35rem;
+  }
+
+  .roopsetu-live-preview__frame {
+    height: 68svh;
+    min-height: 32rem;
   }
 }
 
