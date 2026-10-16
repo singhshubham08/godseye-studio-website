@@ -353,7 +353,7 @@ select:focus-visible {
 }
 
 @media (max-width: 640px) {
-  header nav.mt-10.flex.flex-col.gap-2 > a {
+  nav.mt-10.flex.flex-col.gap-2 > a {
     font-size: clamp(1.5rem, 8vw, 2rem) !important;
     line-height: 1.15 !important;
   }
