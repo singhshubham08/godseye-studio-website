@@ -1,0 +1,264 @@
+(function () {
+  if (document.documentElement.dataset.techfluxLoaded === 'true') return;
+  document.documentElement.dataset.techfluxLoaded = 'true';
+
+  const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+
+  function addEyeOrbitLogo() {
+    const header = document.querySelector('header');
+    if (!header || header.querySelector('.techflux-eye-orbit')) return;
+    const brandLink = header.querySelector('a[href="/"]');
+    if (!brandLink) return;
+    const orb = document.createElement('span');
+    orb.className = 'techflux-eye-orbit';
+    orb.setAttribute('aria-hidden', 'true');
+    const label = brandLink.querySelector('span, div, img');
+    brandLink.insertBefore(orb, label || brandLink.firstChild);
+  }
+
+  function addWhatsAppButton() {
+    if (document.getElementById('techflux-whatsapp')) return;
+    const link = document.createElement('a');
+    link.id = 'techflux-whatsapp';
+    link.href = 'https://wa.me/2348050000000';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', 'Chat on WhatsApp');
+    link.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.52 3.48A11.7 11.7 0 0 0 12.1 1a11.85 11.85 0 0 0-10.2 17.93L1 23l4.22-1.1A11.86 11.86 0 0 0 12.12 23C18.8 23 24 17.8 24 11.18c0-3.17-1.26-6.15-3.48-8.7Zm-8.42 17.5c-1.08 0-2.15-.29-3.08-.83l-.22-.13-2.5.65.67-2.43-.15-.25A9.55 9.55 0 0 1 12.12 2.9a9.62 9.62 0 0 1 6.85 2.84 9.63 9.63 0 0 1-2.84 16.25h-.02c-.96.57-2.09.9-3.26.9Zm5.03-7.08c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.62.14-.18.28-.7.91-.86 1.1-.16.18-.32.2-.6.07-.28-.14-1.18-.43-2.24-1.38-.83-.74-1.39-1.64-1.55-1.92-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.5.14-.17.18-.29.28-.48.09-.2.05-.37-.02-.5-.07-.14-.62-1.49-.85-2.03-.22-.53-.45-.46-.62-.47h-.53c-.18 0-.48.07-.73.35-.25.28-1 .98-1 2.4 0 1.42 1.03 2.77 1.17 2.96.14.2 2.03 3.09 4.92 4.34.69.3 1.23.48 1.65.61.7.22 1.34.19 1.84.12.56-.08 1.65-.68 1.88-1.34.23-.66.23-1.23.16-1.35-.07-.12-.26-.2-.54-.34Z" fill="currentColor"/></svg>';
+    document.body.appendChild(link);
+  }
+
+  function addRevealObserver() {
+    const items = document.querySelectorAll('section, article, footer, .service-card, .work-card, .feature-card');
+    items.forEach((el) => {
+      if (el.classList.contains('techflux-reveal')) return;
+      el.classList.add('techflux-reveal');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.techflux-reveal').forEach((el) => observer.observe(el));
+  }
+
+  function injectHomeExperience() {
+    if (!isHomePage) return;
+    const main = document.querySelector('main');
+    if (!main || main.querySelector('.techflux-chat-demo')) return;
+
+    const heroVisual = document.createElement('div');
+    heroVisual.className = 'techflux-hero-visual';
+    heroVisual.innerHTML = '<div class="techflux-eye-scene"><div class="techflux-eye-glow"></div><canvas id="techflux-eye-canvas" aria-label="Animated eye graphic"></canvas></div>';
+    main.appendChild(heroVisual);
+
+    const featureRail = document.createElement('div');
+    featureRail.className = 'techflux-feature-rail techflux-panel techflux-reveal';
+    featureRail.innerHTML = [
+      'Strategy systems',
+      'Brand direction',
+      'AI automation',
+      'Conversion design',
+      'Launch support'
+    ].map((label) => '<span class="techflux-feature-pill">' + label + '</span>').join('');
+
+    const firstSection = main.querySelector('section');
+    if (firstSection) {
+      firstSection.appendChild(featureRail);
+    }
+
+    const chatPanel = document.createElement('aside');
+    chatPanel.className = 'techflux-panel techflux-chat-demo techflux-reveal';
+    chatPanel.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:.9rem;">
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <span style="display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:linear-gradient(135deg,#7dd3fc,#8b5cf6);color:#061219;font-weight:800;">AI</span>
+          <div>
+            <div style="font-weight:700; color:#fff;">Studio assistant</div>
+            <div style="font-size:.72rem; color:rgba(223,231,247,0.72);">Answers in real time</div>
+          </div>
+        </div>
+        <span style="border-radius:999px;padding:.3rem .6rem;background:rgba(34,197,94,0.14);color:#9ff0ba;font-size:.7rem;">Online</span>
+      </div>
+      <div class="bubble incoming">
+        <span class="avatar">AI</span>
+        <div class="message">We can design a premium landing page, a lead funnel, and a WhatsApp automation flow this sprint.</div>
+      </div>
+      <div class="bubble outgoing">
+        <div class="message">Great. We need a refined look for a B2B SaaS launch and a smaller conversion-focused site.</div>
+      </div>
+      <div class="prompt-row">
+        <input aria-label="Ask the AI assistant" value="Plan the launch stack" />
+        <button type="button">Send</button>
+      </div>
+    `;
+    main.appendChild(chatPanel);
+
+    const estimator = document.createElement('div');
+    estimator.className = 'techflux-panel techflux-estimator techflux-reveal';
+    estimator.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+        <div>
+          <div style="font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:#8ed5ff;">Project estimator</div>
+          <h3 style="margin:.45rem 0 0;color:white;font-size:1.15rem;">Launch investment</h3>
+        </div>
+        <span style="font-size:1.75rem;">✦</span>
+      </div>
+      <div class="field-group">
+        <label>
+          <span style="display:block;margin-bottom:.35rem;font-size:.8rem;color:rgba(223,231,247,0.8);">Scope</span>
+          <select id="techflux-scope">
+            <option value="8500">Brand & landing page</option>
+            <option value="13000">Small product site</option>
+            <option value="18500">Growth website + automation</option>
+            <option value="24000">Custom creative system</option>
+          </select>
+        </label>
+        <label>
+          <span style="display:block;margin-bottom:.35rem;font-size:.8rem;color:rgba(223,231,247,0.8);">Priority</span>
+          <select id="techflux-priority">
+            <option value="1">Standard delivery</option>
+            <option value="1.25">Priority launch</option>
+            <option value="1.5">Rapid sprint</option>
+          </select>
+        </label>
+      </div>
+      <div class="estimate-result" aria-live="polite">
+        Estimated starting investment: <strong id="techflux-estimate">$8,500</strong>
+      </div>
+      <button type="button" style="margin-top:1rem; width:100%;">Book strategy call</button>
+    `;
+    main.appendChild(estimator);
+
+    const updateEstimate = () => {
+      const scope = Number(document.getElementById('techflux-scope').value || 8500);
+      const priority = Number(document.getElementById('techflux-priority').value || 1);
+      const estimate = Math.round(scope * priority);
+      const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+      document.getElementById('techflux-estimate').textContent = formatter.format(estimate);
+    };
+    document.getElementById('techflux-scope')?.addEventListener('change', updateEstimate);
+    document.getElementById('techflux-priority')?.addEventListener('change', updateEstimate);
+    updateEstimate();
+
+    const timeline = document.createElement('section');
+    timeline.className = 'techflux-panel techflux-timeline techflux-reveal';
+    timeline.innerHTML = `
+      <div class="techflux-timeline-step" data-step="1"><h3>Discover</h3><p>Clarify positioning, audience, offer, and launch goals.</p></div>
+      <div class="techflux-timeline-step" data-step="2"><h3>Design</h3><p>Build visual direction, pages, and user flow in a premium system.</p></div>
+      <div class="techflux-timeline-step" data-step="3"><h3>Build</h3><p>Develop fast, responsive interfaces with clean handoff and QA.</p></div>
+      <div class="techflux-timeline-step" data-step="4"><h3>Automate</h3><p>Connect AI workflows, lead routing, chat, and internal ops.</p></div>
+      <div class="techflux-timeline-step" data-step="5"><h3>Launch</h3><p>Ship with support, analytics, and iteration plans for growth.</p></div>
+    `;
+    main.appendChild(timeline);
+  }
+
+  function initThreeEye() {
+    const canvas = document.getElementById('techflux-eye-canvas');
+    if (!canvas || !window.THREE) return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(canvas.clientWidth || 320, canvas.clientHeight || 320, false);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+    camera.position.z = 4.4;
+
+    const ambient = new THREE.AmbientLight(0xdbeafe, 1.3);
+    const point = new THREE.PointLight(0xa78bfa, 2.2, 100);
+    point.position.set(2.2, 1.6, 4.5);
+    scene.add(ambient, point);
+
+    const group = new THREE.Group();
+    const shell = new THREE.Mesh(
+      new THREE.SphereGeometry(1.45, 40, 40),
+      new THREE.MeshPhysicalMaterial({
+        color: 0x0b1220,
+        metalness: 0.6,
+        roughness: 0.18,
+        transmission: 0.35,
+        thickness: 0.8,
+        transparent: true,
+        opacity: 0.9,
+        envMapIntensity: 1.2
+      })
+    );
+    group.add(shell);
+
+    const iris = new THREE.Mesh(
+      new THREE.SphereGeometry(0.6, 32, 32),
+      new THREE.MeshStandardMaterial({
+        color: 0x8b5cf6,
+        emissive: 0x6d28d9,
+        emissiveIntensity: 0.8,
+        metalness: 0.2,
+        roughness: 0.45
+      })
+    );
+    iris.position.z = 0.28;
+    group.add(iris);
+
+    const pupil = new THREE.Mesh(
+      new THREE.SphereGeometry(0.2, 22, 22),
+      new THREE.MeshStandardMaterial({
+        color: 0x030912,
+        metalness: 0.1,
+        roughness: 0.7
+      })
+    );
+    group.add(pupil);
+
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(1.9, 0.08, 16, 128),
+      new THREE.MeshStandardMaterial({
+        color: 0xe2e8f0,
+        emissive: 0x8b5cf6,
+        emissiveIntensity: 0.7,
+        metalness: 0.7,
+        roughness: 0.18
+      })
+    );
+    ring.rotation.x = Math.PI / 2;
+    group.add(ring);
+
+    scene.add(group);
+
+    function render() {
+      const t = performance.now() * 0.001;
+      group.rotation.y = t * 0.7;
+      group.rotation.x = Math.sin(t * 1.4) * 0.45;
+      iris.rotation.x = t * 0.8;
+      ring.rotation.z = t * 1.2;
+      renderer.render(scene, camera);
+      requestAnimationFrame(render);
+    }
+
+    render();
+  }
+
+  addEyeOrbitLogo();
+  addWhatsAppButton();
+  addRevealObserver();
+  injectHomeExperience();
+
+  if (window.THREE) {
+    setTimeout(initThreeEye, 150);
+  }
+
+  if (window.framerMotion && typeof window.framerMotion.animate === 'function') {
+    const targets = document.querySelectorAll('.techflux-feature-pill, .techflux-chat-demo, .techflux-estimator, .techflux-timeline-step');
+    targets.forEach((node, index) => {
+      window.framerMotion.animate(
+        node,
+        { opacity: [0, 1], y: [10, 0] },
+        { duration: 0.55, delay: index * 0.04, ease: 'easeOut' }
+      );
+    });
+  }
+})();

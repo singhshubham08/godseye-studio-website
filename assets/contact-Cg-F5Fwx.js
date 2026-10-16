@@ -1,0 +1,1 @@
+import{t as e}from"./sections-DQxFRd05.js";import{R as t}from"./index-DCtT4t11.js";var n=t(),r=()=>(0,n.jsx)(`div`,{className:`pt-16`,children:(0,n.jsx)(e,{})});export{r as component};

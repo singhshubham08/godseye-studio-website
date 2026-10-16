@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: godseye-studio
+    runtime: python
+    plan: free
+    buildCommand: python -m compileall -q serve.py
+    startCommand: python serve.py
+    envVars:
+      - key: GE_SESSION_SECRET
+        generateValue: true
+      - key: GE_ADMIN_USERNAME
+        sync: false
+      - key: GE_ADMIN_PASSWORD
+        sync: false
