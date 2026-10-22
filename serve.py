@@ -769,7 +769,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             try:
                 with open(os.path.join(os.getcwd(), self.path.lstrip("/")), "r", encoding="utf-8") as f:
                     html = f.read()
-                if route_path == "/work":
+                if route_path in ("/", "/work"):
                     html = html.replace("</head>", ROOPSETU_LINK + "</head>", 1)
                     html = html.replace("</body>", ROOPSETU_SCRIPT + "</body>", 1)
                 if "</head>" in html and 'techflux-upgrade.css' not in html:
