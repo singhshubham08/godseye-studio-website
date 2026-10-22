@@ -16,18 +16,6 @@
     brandLink.insertBefore(orb, label || brandLink.firstChild);
   }
 
-  function addWhatsAppButton() {
-    if (document.getElementById('techflux-whatsapp')) return;
-    const link = document.createElement('a');
-    link.id = 'techflux-whatsapp';
-    link.href = 'https://wa.me/2348050000000';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.setAttribute('aria-label', 'Chat on WhatsApp');
-    link.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.52 3.48A11.7 11.7 0 0 0 12.1 1a11.85 11.85 0 0 0-10.2 17.93L1 23l4.22-1.1A11.86 11.86 0 0 0 12.12 23C18.8 23 24 17.8 24 11.18c0-3.17-1.26-6.15-3.48-8.7Zm-8.42 17.5c-1.08 0-2.15-.29-3.08-.83l-.22-.13-2.5.65.67-2.43-.15-.25A9.55 9.55 0 0 1 12.12 2.9a9.62 9.62 0 0 1 6.85 2.84 9.63 9.63 0 0 1-2.84 16.25h-.02c-.96.57-2.09.9-3.26.9Zm5.03-7.08c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.62.14-.18.28-.7.91-.86 1.1-.16.18-.32.2-.6.07-.28-.14-1.18-.43-2.24-1.38-.83-.74-1.39-1.64-1.55-1.92-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.5.14-.17.18-.29.28-.48.09-.2.05-.37-.02-.5-.07-.14-.62-1.49-.85-2.03-.22-.53-.45-.46-.62-.47h-.53c-.18 0-.48.07-.73.35-.25.28-1 .98-1 2.4 0 1.42 1.03 2.77 1.17 2.96.14.2 2.03 3.09 4.92 4.34.69.3 1.23.48 1.65.61.7.22 1.34.19 1.84.12.56-.08 1.65-.68 1.88-1.34.23-.66.23-1.23.16-1.35-.07-.12-.26-.2-.54-.34Z" fill="currentColor"/></svg>';
-    document.body.appendChild(link);
-  }
-
   function addRevealObserver() {
     const items = document.querySelectorAll('section, article, footer, .service-card, .work-card, .feature-card');
     items.forEach((el) => {
@@ -87,7 +75,7 @@
       </div>
       <div class="bubble incoming">
         <span class="avatar">AI</span>
-        <div class="message">We can design a premium landing page, a lead funnel, and a WhatsApp automation flow this sprint.</div>
+        <div class="message">We can design a premium landing page, a lead funnel, and an automated workflow this sprint.</div>
       </div>
       <div class="bubble outgoing">
         <div class="message">Great. We need a refined look for a B2B SaaS launch and a smaller conversion-focused site.</div>
@@ -243,7 +231,6 @@
   }
 
   addEyeOrbitLogo();
-  addWhatsAppButton();
   addRevealObserver();
   injectHomeExperience();
 

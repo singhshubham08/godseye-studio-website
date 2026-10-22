@@ -159,14 +159,12 @@ img {
 """
 
 TECHFLUX_LINK = '<link rel="stylesheet" href="/assets/techflux-upgrade.css" />'
-CHATBOT_LINK = '<link rel="stylesheet" href="/assets/godseye-chatbot.css" />'
 ROOPSETU_LINK = '<link rel="stylesheet" href="/assets/roopsetu-portfolio.css" />'
 ROOPSETU_SCRIPT = '<script src="/assets/roopsetu-portfolio.js"></script>'
 TECHFLUX_SCRIPTS = '''
 <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.11.9/dist/framer-motion.umd.js"></script>
 <script src="/assets/techflux-upgrade.js"></script>
-<script src="/assets/godseye-chatbot.js"></script>
 '''
 
 ROUTES = {
@@ -404,7 +402,6 @@ def send_admin_email(session):
                 "New Godseye Studio lead received.",
                 f"Name: {session.get('name') or 'N/A'}",
                 f"Email: {session.get('email') or 'N/A'}",
-                f"WhatsApp: {session.get('whatsapp') or 'N/A'}",
                 f"Service: {session.get('service') or 'N/A'}",
                 f"Budget: {session.get('budget') or 'N/A'}",
                 f"Timeline: {session.get('timeline') or 'N/A'}",
@@ -526,15 +523,6 @@ def build_chatbot_response(session_id, user_message=None, quick_action=None, ip_
                 "requires_contact": False,
             }
         session["email"] = message
-        session["phase"] = "whatsapp"
-        return {
-            "reply": "Optional: what is your WhatsApp number so we can follow up faster?",
-            "phase": "whatsapp",
-            "requires_contact": False,
-        }
-
-    if session["phase"] == "whatsapp":
-        session["whatsapp"] = message
         session["phase"] = "consent"
         return {
             "reply": "Before we save your enquiry, do you consent to us storing your project details and contacting you regarding this project? Reply yes or no.",
@@ -618,7 +606,6 @@ def admin_dashboard_html():
               <th>Budget</th>
               <th>Timeline</th>
               <th>Email</th>
-              <th>WhatsApp</th>
               <th>Project</th>
               <th>Created</th>
             </tr>
@@ -636,7 +623,7 @@ def admin_dashboard_html():
             const status = document.getElementById('status');
             tbody.innerHTML = '';
             if (!Array.isArray(data.leads) || !data.leads.length) {
-              tbody.innerHTML = '<tr><td colspan="8" class="empty">No approved leads yet.</td></tr>';
+              tbody.innerHTML = '<tr><td colspan="7" class="empty">No approved leads yet.</td></tr>';
               status.textContent = '0 leads';
               return;
             }
@@ -648,7 +635,6 @@ def admin_dashboard_html():
                 <td>${lead.budget || '—'}</td>
                 <td>${lead.timeline || '—'}</td>
                 <td>${lead.email || '—'}</td>
-                <td>${lead.whatsapp || '—'}</td>
                 <td>${lead.project_description || '—'}</td>
                 <td>${lead.created_at || '—'}</td>
               `;
@@ -755,7 +741,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return
             conn = sqlite3.connect(DB_PATH)
             conn.row_factory = sqlite3.Row
-            rows = conn.execute("SELECT * FROM leads ORDER BY id DESC").fetchall()
+            rows = conn.execute(
+                "SELECT id, session_id, service, project_description, budget, timeline, name, email, consent, ip_address, created_at FROM leads ORDER BY id DESC"
+            ).fetchall()
             conn.close()
             payload = {"leads": [dict(row) for row in rows]}
             send_json(self, payload, 200)
@@ -785,7 +773,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     html = html.replace("</head>", ROOPSETU_LINK + "</head>", 1)
                     html = html.replace("</body>", ROOPSETU_SCRIPT + "</body>", 1)
                 if "</head>" in html and 'techflux-upgrade.css' not in html:
-                    html = html.replace("</head>", TECHFLUX_LINK + CHATBOT_LINK + "</head>", 1)
+                    html = html.replace("</head>", TECHFLUX_LINK + "</head>", 1)
                     html = html.replace("</body>", TECHFLUX_SCRIPTS + "</body>", 1)
                     content = html.encode("utf-8")
                     self.send_response(200)
@@ -854,7 +842,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     str(payload.get("timeline", "")).strip()[:80],
                     str(payload.get("name", "")).strip()[:80],
                     str(payload.get("email", "")).strip()[:120],
-                    str(payload.get("whatsapp", "")).strip()[:40],
+                    "",
                     1,
                     get_client_ip(self),
                     time.strftime("%Y-%m-%d %H:%M:%S"),
